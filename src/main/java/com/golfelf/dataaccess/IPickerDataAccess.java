@@ -10,6 +10,8 @@ public interface IPickerDataAccess {
 
     Picker getPicker(int id) throws Exception;
 
+    Picker getPickerByName(String name) throws Exception;
+
     List<Picker> getAllPickers() throws Exception;
 
     Picker updatePicker(Picker picker) throws Exception;

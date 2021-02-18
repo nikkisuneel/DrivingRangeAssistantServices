@@ -2,6 +2,7 @@ package com.golfelf.lambda;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.golfelf.dataaccess.IPickerDataAccess;
@@ -9,34 +10,35 @@ import com.golfelf.dataaccess.PickerDataAccess;
 import com.golfelf.drivingrange.Picker;
 import com.google.gson.Gson;
 
-import java.sql.SQLException;
 import java.util.List;
+import java.util.Locale;
 
-public class PickerAPIRequestHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
-    public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent apiGatewayProxyRequestEvent,
+public class PickerAPIRequestHandler implements RequestHandler<APIGatewayProxyRequestEvent,
+        APIGatewayProxyResponseEvent> {
+
+    public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent request,
                                                       Context context) {
-
+        LambdaLogger logger = context.getLogger();
         APIGatewayProxyResponseEvent response = null;
-
         try {
-            switch(apiGatewayProxyRequestEvent.getHttpMethod()) {
+            switch(request.getHttpMethod().toUpperCase(Locale.ROOT)) {
                 case "POST":
-                    response = processPost(apiGatewayProxyRequestEvent, context);
+                    response = processPost(request, context);
                     break;
-                case "Get":
-                    response = processGet(apiGatewayProxyRequestEvent, context);
+                case "GET":
+                    response = processGet(request, context);
                     break;
                 case "PUT":
-                    response = processPut(apiGatewayProxyRequestEvent, context);
+                    response = processPut(request, context);
                     break;
                 case "DELETE":
-                    response = processDelete(apiGatewayProxyRequestEvent, context);
+                    response = processDelete(request, context);
                     break;
                 default:
                     response =  new APIGatewayProxyResponseEvent();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(e.getMessage());
             response = new APIGatewayProxyResponseEvent();
             response.setStatusCode(500);
         } finally {
@@ -46,8 +48,10 @@ public class PickerAPIRequestHandler implements RequestHandler<APIGatewayProxyRe
 
     private APIGatewayProxyResponseEvent processPost(APIGatewayProxyRequestEvent request,
                                                      Context context) {
+        LambdaLogger logger = context.getLogger();
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
         String body = request.getBody();
+        logger.log(body);
 
         Gson gsonObj = new Gson();
         Picker p = gsonObj.fromJson(body, Picker.class);
@@ -56,9 +60,15 @@ public class PickerAPIRequestHandler implements RequestHandler<APIGatewayProxyRe
 
         try {
             pickerDataAccess.create(p);
+
+            Picker addedPicker = pickerDataAccess.getPickerByName(p.getName());
+
+            response.setBody(gsonObj.toJson(addedPicker));
+
             response.setStatusCode(200);
-        } catch (SQLException e) {
-            response.setBody(e.getStackTrace().toString());
+        } catch (Exception e) {
+            logger.log(gsonObj.toJson(e));
+            response.setBody(gsonObj.toJson(e));
             response.setStatusCode(400);
         } finally {
             return response;
@@ -67,23 +77,28 @@ public class PickerAPIRequestHandler implements RequestHandler<APIGatewayProxyRe
 
     private APIGatewayProxyResponseEvent processGet(APIGatewayProxyRequestEvent request,
                                                     Context context) {
+        LambdaLogger logger = context.getLogger();
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
         String path = request.getPath();
+        logger.log("Incoming path: "+path);
         Gson gsonObj = new Gson();
         IPickerDataAccess pickerDataAccess = new PickerDataAccess();
 
         try {
-            if (path.endsWith("/picker")) {
+            if (path.endsWith("/pickers")) {
                 List<Picker> pickers = pickerDataAccess.getAllPickers();
+                logger.log("response bod: " + gsonObj.toJson(pickers));
                 response.setBody(gsonObj.toJson(pickers));
             } else {
                 Integer id = Integer.parseInt(path.substring(path.lastIndexOf('/') + 1));
                 Picker p = pickerDataAccess.getPicker(id);
+                logger.log("response body: " + gsonObj.toJson(p));
                 response.setBody(gsonObj.toJson(p));
             }
             response.setStatusCode(200);
-        } catch (SQLException e) {
-            response.setBody(e.getStackTrace().toString());
+        } catch (Exception e) {
+            logger.log(gsonObj.toJson(e));
+            response.setBody(gsonObj.toJson(e));
             response.setStatusCode(400);
         } finally {
             return response;
@@ -92,18 +107,23 @@ public class PickerAPIRequestHandler implements RequestHandler<APIGatewayProxyRe
 
     private APIGatewayProxyResponseEvent processPut(APIGatewayProxyRequestEvent request,
                                                     Context context) {
+        LambdaLogger logger = context.getLogger();
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
         String body = request.getBody();
         Gson gsonObj = new Gson();
         IPickerDataAccess pickerDataAccess = new PickerDataAccess();
 
         try {
+            String id = request.getPathParameters().get("pickerId");
             Picker p = gsonObj.fromJson(body, Picker.class);
+            p.setId(Integer.parseInt(id));
             pickerDataAccess.updatePicker(p);
-            response.setBody(gsonObj.toJson(p));
+            Picker updatedPicker = pickerDataAccess.getPicker(Integer.parseInt(id));
+            response.setBody(gsonObj.toJson(updatedPicker));
             response.setStatusCode(200);
-        } catch (SQLException e) {
-            response.setBody(e.getStackTrace().toString());
+        } catch (Exception e) {
+            logger.log(gsonObj.toJson(e));
+            response.setBody(gsonObj.toJson(e));
             response.setStatusCode(400);
         } finally {
             return response;
@@ -112,6 +132,7 @@ public class PickerAPIRequestHandler implements RequestHandler<APIGatewayProxyRe
 
     private APIGatewayProxyResponseEvent processDelete(APIGatewayProxyRequestEvent request,
                                                        Context context) {
+        LambdaLogger logger = context.getLogger();
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
         String path = request.getPath();
         Gson gsonObj = new Gson();
@@ -121,8 +142,9 @@ public class PickerAPIRequestHandler implements RequestHandler<APIGatewayProxyRe
             Integer id = Integer.parseInt(path.substring(path.lastIndexOf('/') + 1));
             pickerDataAccess.deletePicker(id);
             response.setStatusCode(200);
-        } catch (SQLException e) {
-            response.setBody(e.getStackTrace().toString());
+        } catch (Exception e) {
+            logger.log(gsonObj.toJson(e));
+            response.setBody(gsonObj.toJson(e));
             response.setStatusCode(400);
         } finally {
             return response;

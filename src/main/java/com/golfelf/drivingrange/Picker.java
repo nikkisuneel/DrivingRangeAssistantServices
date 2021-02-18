@@ -6,6 +6,8 @@ public class Picker {
     private String type;
     private int throughput;
 
+    public Picker() {}
+
     public Picker(String name, String type, int throughput) {
         setName(name);
         setType(type);

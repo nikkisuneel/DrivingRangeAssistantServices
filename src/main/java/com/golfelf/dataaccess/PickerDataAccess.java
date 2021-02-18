@@ -26,14 +26,14 @@ public class PickerDataAccess implements IPickerDataAccess{
             stmt.setInt(3, picker.getThroughput());
             stmt.executeUpdate();
         } catch (Exception e) {
-            logger.warn(e.toString());
+            logger.warn(e);
             throw e;
         }
     }
 
     @Override
     public Picker getPicker(int id) throws Exception {
-        Picker result = null;
+        Picker result = new Picker();
         try {
             Connection conn = DBConnectionManager.dbConnection;
             String query = "SELECT id, name, type, throughput FROM driving_range.picker" +
@@ -41,14 +41,37 @@ public class PickerDataAccess implements IPickerDataAccess{
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
-            rs.next();
-            result = new Picker(rs.getInt(1),
-                    rs.getString(2),
-                    rs.getString(3),
-                    rs.getInt(4)
-            );
+            if (rs.next()) {
+                result.setId(rs.getInt(1));
+                result.setName(rs.getString(2));
+                result.setType(rs.getString(3));
+                result.setThroughput(rs.getInt(4));
+            }
         } catch (Exception e) {
-            logger.warn(e.toString());
+            logger.warn(e);
+            throw e;
+        } finally {
+            return result;
+        }
+    }
+
+    public Picker getPickerByName(String name) throws Exception {
+        Picker result = new Picker();
+        try {
+            Connection conn = DBConnectionManager.dbConnection;
+            String query = "SELECT id, name, type, throughput FROM driving_range.picker" +
+                    " WHERE name = ?";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, name);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                result.setId(rs.getInt(1));
+                result.setName(rs.getString(2));
+                result.setType(rs.getString(3));
+                result.setThroughput(rs.getInt(4));
+            }
+        } catch (Exception e) {
+            logger.warn(e);
             throw e;
         } finally {
             return result;
@@ -72,7 +95,7 @@ public class PickerDataAccess implements IPickerDataAccess{
                 result.add(p);
             }
         } catch (Exception e) {
-            logger.warn(e.toString());
+            logger.warn(e);
             throw e;
         } finally {
             return result;
@@ -95,7 +118,7 @@ public class PickerDataAccess implements IPickerDataAccess{
             stmt.executeUpdate();
             result = picker;
         } catch (Exception e) {
-            logger.warn(e.toString());
+            logger.warn(e);
             throw e;
         } finally {
             return result;
@@ -112,7 +135,7 @@ public class PickerDataAccess implements IPickerDataAccess{
             stmt.setInt(1, id);
             stmt.executeUpdate();
         } catch (Exception e) {
-            logger.warn(e.toString());
+            logger.warn(e);
             throw e;
         }
     }

@@ -1,29 +1,32 @@
 package com.golfelf.lambda;
 
 import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.golfelf.dataaccess.ActivityDataAccess;
 import com.golfelf.dataaccess.IActivityDataAccess;
 import com.golfelf.drivingrange.Activity;
+import com.golfelf.util.Utils;
 import com.google.gson.Gson;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Locale;
 
 public class ActivityAPIRequestHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent apiGatewayProxyRequestEvent,
                                                       Context context) {
-
+        LambdaLogger logger = context.getLogger();
         APIGatewayProxyResponseEvent response = null;
 
         try {
-            switch(apiGatewayProxyRequestEvent.getHttpMethod()) {
+            switch(apiGatewayProxyRequestEvent.getHttpMethod().toUpperCase(Locale.ROOT)) {
                 case "POST":
                     response = processPost(apiGatewayProxyRequestEvent, context);
                     break;
-                case "Get":
+                case "GET":
                     response = processGet(apiGatewayProxyRequestEvent, context);
                     break;
                 case "PUT":
@@ -33,7 +36,7 @@ public class ActivityAPIRequestHandler implements RequestHandler<APIGatewayProxy
                     response =  new APIGatewayProxyResponseEvent();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(e.getMessage());
             response = new APIGatewayProxyResponseEvent();
             response.setStatusCode(500);
         } finally {
@@ -43,19 +46,24 @@ public class ActivityAPIRequestHandler implements RequestHandler<APIGatewayProxy
 
     private APIGatewayProxyResponseEvent processPost(APIGatewayProxyRequestEvent request,
                                                      Context context) {
+        LambdaLogger logger = context.getLogger();
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
         String body = request.getBody();
 
-        Gson gsonObj = new Gson();
-        Activity a = gsonObj.fromJson(body, Activity.class);
+        Gson gsonObj = Utils.getGsonWithFormatters();
+
+        Activity inputActivity = gsonObj.fromJson(body, Activity.class);
 
         IActivityDataAccess activityDataAccess = new ActivityDataAccess();
 
         try {
-            activityDataAccess.create(a);
+            activityDataAccess.create(inputActivity);
+            Activity createdActivity = activityDataAccess.getActivityByDate(inputActivity.getActivityDate());
+            response.setBody(gsonObj.toJson(createdActivity));
             response.setStatusCode(200);
         } catch (SQLException e) {
-            response.setBody(e.getStackTrace().toString());
+            logger.log(gsonObj.toJson(e));
+            response.setBody(gsonObj.toJson(e));
             response.setStatusCode(400);
         } finally {
             return response;
@@ -64,8 +72,10 @@ public class ActivityAPIRequestHandler implements RequestHandler<APIGatewayProxy
 
     private APIGatewayProxyResponseEvent processGet(APIGatewayProxyRequestEvent request,
                                                     Context context) {
+        LambdaLogger logger = context.getLogger();
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
-        Gson gsonObj = new Gson();
+        Gson gsonObj = Utils.getGsonWithFormatters();
+
         IActivityDataAccess activityDataAccess = new ActivityDataAccess();
 
         try {
@@ -73,7 +83,8 @@ public class ActivityAPIRequestHandler implements RequestHandler<APIGatewayProxy
             response.setBody(gsonObj.toJson(activities));
             response.setStatusCode(200);
         } catch (SQLException e) {
-            response.setBody(e.getStackTrace().toString());
+            logger.log(gsonObj.toJson(e));
+            response.setBody(gsonObj.toJson(e));
             response.setStatusCode(400);
         } finally {
             return response;
@@ -82,18 +93,23 @@ public class ActivityAPIRequestHandler implements RequestHandler<APIGatewayProxy
 
     private APIGatewayProxyResponseEvent processPut(APIGatewayProxyRequestEvent request,
                                                     Context context) {
+        LambdaLogger logger = context.getLogger();
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
         String body = request.getBody();
-        Gson gsonObj = new Gson();
+        Gson gsonObj = Utils.getGsonWithFormatters();
         IActivityDataAccess activityDataAccess = new ActivityDataAccess();
 
         try {
+            String id = request.getPathParameters().get("activityId");
             Activity a = gsonObj.fromJson(body, Activity.class);
+            a.setId(Integer.parseInt(id));
             activityDataAccess.updateActivity(a);
-            response.setBody(gsonObj.toJson(a));
+            Activity updatedActivity = activityDataAccess.getActivity(Integer.parseInt(id));
+            response.setBody(gsonObj.toJson(updatedActivity));
             response.setStatusCode(200);
         } catch (SQLException e) {
-            response.setBody(e.getStackTrace().toString());
+            logger.log(gsonObj.toJson(e));
+            response.setBody(gsonObj.toJson(e));
             response.setStatusCode(400);
         } finally {
             return response;

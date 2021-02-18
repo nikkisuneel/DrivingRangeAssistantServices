@@ -1,0 +1,698 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Driving Range API specification",
+    "title": "DrivingRange",
+    "version": "1.0"
+  },
+  "schemes": [
+      "https"
+  ],
+  "paths": {
+    "/activities": {
+      "get": {
+        "tags": [
+            "activities"
+        ],
+        "summary": "List all activities",
+        "produces": [
+            "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Activities"
+            },
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "type": "string",
+                "description": "URI that may access the resource"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          },
+          "uri": "http://drivingrange.execute-api.us-east-1.amazonaws.com/drivingrange/activities",
+          "passthroughBehavior": "when_no_match",
+          "httpMethod": "GET",
+          "type": "http"
+        }
+      },
+      "post": {
+        "tags": [
+            "activities"
+        ],
+        "operationId": "CreateActivity",
+        "summary": "Create an activity",
+        "consumes": [
+            "application/json"
+        ],
+        "produces": [
+            "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "NewActivity",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NewActivity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/NewActivityResponse"
+            },
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "type": "string",
+                "description": "URI that may access the resource"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          },
+          "uri": "http://drivingrange.execute-api.us-east-1.amazonaws.com/drivingrange/activities",
+          "passthroughBehavior": "when_no_match",
+          "httpMethod": "POST",
+          "type": "http"
+        }
+      },
+    },
+    "/activities/{activityId}": {
+      "put": {
+        "tags": [
+            "activities"
+        ],
+        "summary": "Updating a specific activity",
+        "operationId": "UpdateActivity",
+        "produces": [
+            "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "activityId",
+            "in": "path",
+            "description": "The id of the activity to be updated",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Activity"
+            },
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "type": "string",
+                "description": "URI that may access the resource"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          },
+          "requestParameters": {
+            "integration.request.path.activityId": "method.request.path.activityId"
+          },
+          "uri": "http://drivingrange.execute-api.us-east-1.amazonaws.com/drivingrange/activities/{activityId}",
+          "passthroughBehavior": "when_no_match",
+          "httpMethod": "PUT",
+          "type": "http"
+        }
+      },
+    },
+##################################################
+    "/pickers": {
+      "get": {
+        "tags": [
+            "pickers"
+        ],
+        "summary": "List all pickers",
+        "produces": [
+            "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Pickers"
+            },
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "type": "string",
+                "description": "URI that may access the resource"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          },
+          "uri": "http://drivingrange.execute-api.us-east-1.amazonaws.com/drivingrange/pickers",
+          "passthroughBehavior": "when_no_match",
+          "httpMethod": "GET",
+          "type": "http"
+        }
+      },
+      "post": {
+        "tags": [
+            "pickers"
+        ],
+        "operationId": "CreatePicker",
+        "summary": "Create a picker",
+        "consumes": [
+            "application/json"
+        ],
+        "produces": [
+            "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "NewPicker",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NewPicker"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/NewPickerResponse"
+            },
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "type": "string",
+                "description": "URI that may access the resource"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          },
+          "uri": "http://drivingrange.execute-api.us-east-1.amazonaws.com/drivingrange/pickers",
+          "passthroughBehavior": "when_no_match",
+          "httpMethod": "POST",
+          "type": "http"
+        }
+      },
+    },
+    "/pickers/{pickerId}": {
+      "get": {
+        "tags": [
+            "pickers"
+        ],
+        "summary": "Info for a specific picker",
+        "operationId": "GetPicker",
+        "produces": [
+            "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "pickerId",
+            "in": "path",
+            "description": "The id of the picker to retrieve",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Picker"
+            },
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "type": "string",
+                "description": "URI that may access the resource"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          },
+          "requestParameters": {
+            "integration.request.path.pickerId": "method.request.path.pickerId"
+          },
+          "uri": "http://drivingrange.execute-api.us-east-1.amazonaws.com/drivingrange/pickers/{pickerId}",
+          "passthroughBehavior": "when_no_match",
+          "httpMethod": "GET",
+          "type": "http"
+        }
+      },
+      "put": {
+        "tags": [
+            "pickers"
+        ],
+        "summary": "Updating a specific picker",
+        "operationId": "UpdatePicker",
+        "produces": [
+            "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "pickerId",
+            "in": "path",
+            "description": "The id of the picker to be updated",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Picker"
+            },
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "type": "string",
+                "description": "URI that may access the resource"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          },
+          "requestParameters": {
+            "integration.request.path.pickerId": "method.request.path.pickerId"
+          },
+          "uri": "http://drivingrange.execute-api.us-east-1.amazonaws.com/drivingrange/pickers/{pickerId}",
+          "passthroughBehavior": "when_no_match",
+          "httpMethod": "PUT",
+          "type": "http"
+        }
+      },
+    }
+  },
+  "definitions": {
+    "Activities": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Activity"
+      }
+    },
+    "NewActivityResponse": {
+      "type": "object",
+      "properties": {
+        "activity": {
+          "$ref": "#/definitions/Activity"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Activity": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "activityDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "ballCount": {
+          "type": "integer"
+        },
+        "pickerCounts": { # <---- dictionary
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "startTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endTime": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "NewActivity": {
+      "type": "object",
+      "properties": {
+        "activityDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "ballCount": {
+          "type": "integer"
+        },
+        "pickerCounts": { # <---- dictionary
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "startTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endTime": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+######################################################################
+    "Pickers": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Picker"
+      }
+    },
+    "Empty": {
+      "type": "object"
+    },
+    "NewPickerResponse": {
+      "type": "object",
+      "properties": {
+        "picker": {
+          "$ref": "#/definitions/Picker"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Picker": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "throughput": {
+          "type": "integer"
+        }
+      }
+    },
+    "NewPicker": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "throughput": {
+          "type": "integer"
+        }
+      }
+    },
+  },
+  "x-amazon-apigateway-documentation": {
+    "version": "v2.1",
+    "createdDate": "2021-02-17T07:03:59Z",
+    "documentationParts": [
+      {
+        "location": {
+          "type": "API"
+        },
+        "properties": {
+          "info": {
+            "description": "Driving Range API"
+          }
+        }
+      },
+      {
+        "location": {
+          "type": "METHOD",
+          "path": "/activities",
+          "method": "GET"
+        },
+        "properties": {
+          "tags": [
+              "activities"
+          ],
+          "summary": "List all activities"
+        }
+      },
+      {
+        "location": {
+          "type": "METHOD",
+          "path": "/activities/{activityId}",
+          "method": "PUT"
+        },
+        "properties": {
+          "tags": [
+              "activities"
+          ],
+          "summary": "Update for a specific activity"
+        }
+      },
+      {
+        "location": {
+          "type": "METHOD",
+          "path": "/activities",
+          "method": "POST"
+        },
+        "properties": {
+          "tags": [
+              "activities"
+          ],
+          "summary": "Create a activity"
+        }
+      },
+      {
+        "location": {
+          "type": "REQUEST_BODY",
+          "path": "/activities",
+          "method": "POST"
+        },
+        "properties": {
+          "description": "Activity object that needs to be added"
+        }
+      },
+      {
+        "location": {
+          "type": "RESPONSE",
+          "method": "*",
+          "statusCode": "200"
+        },
+        "properties": {
+          "description": "Successful operation"
+        }
+      },
+      {
+        "location": {
+          "type": "RESPONSE_HEADER",
+          "method": "OPTIONS",
+          "statusCode": "200",
+          "name": "Access-Control-Allow-Methods"
+        },
+        "properties": {
+          "description": "Method or methods allowed when accessing the resource"
+        }
+      },
+      {
+        "location": {
+          "type": "RESPONSE_HEADER",
+          "method": "*",
+          "statusCode": "200",
+          "name": "Access-Control-Allow-Origin"
+        },
+        "properties": {
+          "description": "URI that may access the resource"
+        }
+      },
+      {
+        "location": {
+          "type": "RESPONSE_HEADER",
+          "method": "GET",
+          "statusCode": "200",
+          "name": "Content-Type"
+        },
+        "properties": {
+          "description": "Media type of request"
+        }
+      },
+      {
+        "location": {
+          "type": "METHOD",
+          "path": "/pickers/{pickerId}",
+          "method": "GET"
+        },
+        "properties": {
+          "tags": [
+              "pickers"
+          ],
+          "summary": "Info for a specific picker"
+        }
+      },
+      {
+        "location": {
+          "type": "METHOD",
+          "path": "/pickers/{pickerId}",
+          "method": "PUT"
+        },
+        "properties": {
+          "tags": [
+              "pickers"
+          ],
+          "summary": "Update a specific picker"
+        }
+      },
+      {
+        "location": {
+          "type": "METHOD",
+          "path": "/pickers",
+          "method": "GET"
+        },
+        "properties": {
+          "tags": [
+              "pickers"
+          ],
+          "summary": "List all pickers"
+        }
+      },
+      {
+        "location": {
+          "type": "METHOD",
+          "path": "/pickers",
+          "method": "POST"
+        },
+        "properties": {
+          "tags": [
+              "pickers"
+          ],
+          "summary": "Create a picker"
+        }
+      },
+      {
+        "location": {
+          "type": "PATH_PARAMETER",
+          "path": "/pickers/{pickerId}",
+          "method": "*",
+          "name": "pickerId"
+        },
+        "properties": {
+          "description": "The id of the picker to retrieve"
+        }
+      },
+      {
+        "location": {
+          "type": "REQUEST_BODY",
+          "path": "/pickers",
+          "method": "POST"
+        },
+        "properties": {
+          "description": "Picker object that needs to be added"
+        }
+      },
+      {
+        "location": {
+          "type": "RESPONSE",
+          "method": "*",
+          "statusCode": "200"
+        },
+        "properties": {
+          "description": "Successful operation"
+        }
+      },
+      {
+        "location": {
+          "type": "RESPONSE_HEADER",
+          "method": "OPTIONS",
+          "statusCode": "200",
+          "name": "Access-Control-Allow-Methods"
+        },
+        "properties": {
+          "description": "Method or methods allowed when accessing the resource"
+        }
+      },
+      {
+        "location": {
+          "type": "RESPONSE_HEADER",
+          "method": "*",
+          "statusCode": "200",
+          "name": "Access-Control-Allow-Origin"
+        },
+        "properties": {
+          "description": "URI that may access the resource"
+        }
+      },
+      {
+        "location": {
+          "type": "RESPONSE_HEADER",
+          "method": "GET",
+          "statusCode": "200",
+          "name": "Content-Type"
+        },
+        "properties": {
+          "description": "Media type of request"
+        }
+      }
+    ]
+  }
+}

@@ -11,6 +11,8 @@ public class Activity {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 
+    public Activity() {}
+
     public Activity(LocalDateTime activityDate,
                     int ballCount,
                     Map<String, Integer> pickerCounts) {

@@ -2,11 +2,11 @@ package com.golfelf.dataaccess;
 
 import java.lang.reflect.Type;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.golfelf.drivingrange.Picker;
 import com.golfelf.util.DBConnectionManager;
 import com.golfelf.drivingrange.Activity;
 
@@ -41,7 +41,7 @@ public class ActivityDataAccess implements IActivityDataAccess{
             }
             stmt.executeUpdate();
         } catch (Exception e) {
-            logger.warn(e.toString());
+            logger.warn(e);
             throw e;
         }
     }
@@ -52,7 +52,8 @@ public class ActivityDataAccess implements IActivityDataAccess{
         try {
             Connection conn = DBConnectionManager.dbConnection;
             String query = "SELECT id, activity_date, ball_count, picker_counts, start_time, end_time" +
-                " FROM driving_range.activity";
+                    " FROM driving_range.activity" +
+                    " ORDER BY activity_date asc ";
             PreparedStatement stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
             Gson gsonObj = new Gson();
@@ -68,7 +69,81 @@ public class ActivityDataAccess implements IActivityDataAccess{
                 result.add(p);
             }
         } catch (Exception e) {
-            logger.warn(e.toString());
+            logger.warn(e);
+            throw e;
+        } finally {
+            return result;
+        }
+    }
+
+    @Override
+    public Activity getActivity(int id) throws Exception {
+        Activity result = new Activity();
+        try {
+            Connection conn = DBConnectionManager.dbConnection;
+            String query = "SELECT id, activity_date, ball_count, picker_counts, start_time, end_time" +
+                    " FROM driving_range.activity" +
+                    " WHERE id = ? ";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            Gson gsonObj = new Gson();
+            Type mapType = new TypeToken<Map<String, Integer>>() {}.getType();
+            if (rs.next()) {
+                result.setId(rs.getInt(1));
+                result.setActivityDate(rs.getTimestamp(2).toLocalDateTime());
+                result.setBallCount(rs.getInt(3));
+                result.setPickerCounts(gsonObj.fromJson(rs.getString(4), mapType));
+                result.setStartTime(
+                        rs.getTimestamp(5) == null
+                                ? null
+                                : rs.getTimestamp(5).toLocalDateTime()
+                );
+                result.setEndTime(
+                        rs.getTimestamp(6) == null
+                                ? null
+                                : rs.getTimestamp(6).toLocalDateTime()
+                );
+            }
+        } catch (Exception e) {
+            logger.warn(e);
+            throw e;
+        } finally {
+            return result;
+        }
+    }
+
+    @Override
+    public Activity getActivityByDate(LocalDateTime dateTime) {
+        Activity result = new Activity();
+        try {
+            Connection conn = DBConnectionManager.dbConnection;
+            String query = "SELECT id, activity_date, ball_count, picker_counts, start_time, end_time" +
+                    " FROM driving_range.activity" +
+                    " WHERE activity_date = ? ";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setTimestamp(1, Timestamp.valueOf(dateTime));
+            ResultSet rs = stmt.executeQuery();
+            Gson gsonObj = new Gson();
+            Type mapType = new TypeToken<Map<String, Integer>>() {}.getType();
+            if (rs.next()) {
+                result.setId(rs.getInt(1));
+                result.setActivityDate(rs.getTimestamp(2).toLocalDateTime());
+                result.setBallCount(rs.getInt(3));
+                result.setPickerCounts(gsonObj.fromJson(rs.getString(4), mapType));
+                result.setStartTime(
+                        rs.getTimestamp(5) == null
+                                ? null
+                                : rs.getTimestamp(5).toLocalDateTime()
+                );
+                result.setEndTime(
+                        rs.getTimestamp(6) == null
+                                ? null
+                                : rs.getTimestamp(6).toLocalDateTime()
+                );
+            }
+        } catch (Exception e) {
+            logger.warn(e);
             throw e;
         } finally {
             return result;
@@ -99,7 +174,7 @@ public class ActivityDataAccess implements IActivityDataAccess{
             stmt.executeUpdate();
             result = activity;
         } catch (Exception e) {
-            logger.warn(e.toString());
+            logger.warn(e);
             throw e;
         } finally {
             return result;
