@@ -1,18 +1,14 @@
 package com.golfelf.dataaccess;
 
 import com.golfelf.util.DBConnectionManager;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import org.apache.log4j.Logger;
 
-import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashMap;
-import java.util.Map;
 
-public class PastYearDataTrend extends DataTrend{
+public class PastYearMonthlyDataTrendAccess extends DataTrendAccess {
     private Logger logger = Logger.getLogger("PastYearDataTrend");
 
     @Override
@@ -29,12 +25,12 @@ public class PastYearDataTrend extends DataTrend{
                     " DATE_PART('minute', end_time::timestamp - start_time::timestamp)" +
                     " ) as minutes" +
                     " FROM driving_range.activity " +
-                    " WHERE activity_date NOW() - interval '1 year'" +
+                    " WHERE activity_date >= NOW() - interval '11 months'" +
                     " GROUP BY TO_CHAR(activity_date, 'Mon')";
             PreparedStatement stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                ballCountData.put(rs.getString(1), rs.getInt(2));
+                ballCountData.put(rs.getString(1), Integer.parseInt(rs.getString(2).trim()));
                 activityTimeData.put(rs.getString(1), rs.getInt(3));
             }
         } catch (Exception e) {

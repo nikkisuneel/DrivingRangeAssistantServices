@@ -9,7 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashMap;
 
-public class PastWeekTrend extends DataTrend{
+public class PastWeekDailyTrendAccess extends DataTrendAccess {
     private Logger logger = Logger.getLogger("PastYearDataTrend");
 
     @Override
@@ -26,12 +26,12 @@ public class PastWeekTrend extends DataTrend{
                     " DATE_PART('minute', end_time::timestamp - start_time::timestamp)" +
                     " ) as minutes" +
                     " FROM driving_range.activity " +
-                    " WHERE activity_date NOW() - interval '1 week'" +
+                    " WHERE activity_date >= NOW() - interval '1 week'" +
                     " GROUP BY TO_CHAR(activity_date, 'Dy')";
             PreparedStatement stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                ballCountData.put(rs.getString(1), rs.getInt(2));
+                ballCountData.put(rs.getString(1), Integer.parseInt(rs.getString(2).trim()));
                 activityTimeData.put(rs.getString(1), rs.getInt(3));
             }
         } catch (Exception e) {

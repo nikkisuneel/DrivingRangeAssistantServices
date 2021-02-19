@@ -342,8 +342,48 @@
           "httpMethod": "PUT",
           "type": "http"
         }
+      }
+    },
+######################################################
+    "/trends": {
+      "get": {
+        "tags": [
+            "trends"
+        ],
+        "summary": "Data trend for past week and year",
+        "produces": [
+            "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/trends"
+            },
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "type": "string",
+                "description": "URI that may access the resource"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          },
+          "uri": "http://drivingrange.execute-api.us-east-1.amazonaws.com/drivingrange/trends",
+          "passthroughBehavior": "when_no_match",
+          "httpMethod": "GET",
+          "type": "http"
+        }
       },
-    }
+    },
   },
   "definitions": {
     "Activities": {
@@ -470,6 +510,46 @@
         }
       }
     },
+##############################################
+    "trends": {
+      "type": "object",
+      "properties": {
+        "monthly": {
+          "type": "object",
+          "properties": {
+            "ballCountData": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer"
+              }
+            },
+            "activityTimeData": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        "daily": {
+          "type": "object",
+          "properties": {
+            "ballCountData": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer"
+              }
+            },
+            "activityTimeData": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      }
+    }
   },
   "x-amazon-apigateway-documentation": {
     "version": "v2.1",
@@ -680,6 +760,30 @@
         },
         "properties": {
           "description": "URI that may access the resource"
+        }
+      },
+      {
+        "location": {
+          "type": "RESPONSE_HEADER",
+          "method": "GET",
+          "statusCode": "200",
+          "name": "Content-Type"
+        },
+        "properties": {
+          "description": "Media type of request"
+        }
+      },
+      {
+        "location": {
+          "type": "METHOD",
+          "path": "/trends",
+          "method": "GET"
+        },
+        "properties": {
+          "tags": [
+              "trends"
+          ],
+          "summary": "Monthly and daily trends of data"
         }
       },
       {

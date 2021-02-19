@@ -61,7 +61,7 @@ public class ActivityAPIRequestHandler implements RequestHandler<APIGatewayProxy
             Activity createdActivity = activityDataAccess.getActivityByDate(inputActivity.getActivityDate());
             response.setBody(gsonObj.toJson(createdActivity));
             response.setStatusCode(200);
-        } catch (SQLException e) {
+        } catch (Exception e) {
             logger.log(gsonObj.toJson(e));
             response.setBody(gsonObj.toJson(e));
             response.setStatusCode(400);
@@ -82,7 +82,7 @@ public class ActivityAPIRequestHandler implements RequestHandler<APIGatewayProxy
             List<Activity> activities = activityDataAccess.getAllActivities();
             response.setBody(gsonObj.toJson(activities));
             response.setStatusCode(200);
-        } catch (SQLException e) {
+        } catch (Exception e) {
             logger.log(gsonObj.toJson(e));
             response.setBody(gsonObj.toJson(e));
             response.setStatusCode(400);
@@ -107,7 +107,7 @@ public class ActivityAPIRequestHandler implements RequestHandler<APIGatewayProxy
             Activity updatedActivity = activityDataAccess.getActivity(Integer.parseInt(id));
             response.setBody(gsonObj.toJson(updatedActivity));
             response.setStatusCode(200);
-        } catch (SQLException e) {
+        } catch (Exception e) {
             logger.log(gsonObj.toJson(e));
             response.setBody(gsonObj.toJson(e));
             response.setStatusCode(400);
