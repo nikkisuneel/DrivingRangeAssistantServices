@@ -50,15 +50,11 @@ public class PickerAPIRequestHandler implements RequestHandler<APIGatewayProxyRe
                                                      Context context) {
         LambdaLogger logger = context.getLogger();
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
-        String body = request.getBody();
-        logger.log(body);
-
         Gson gsonObj = new Gson();
-        Picker p = gsonObj.fromJson(body, Picker.class);
-
-        IPickerDataAccess pickerDataAccess = new PickerDataAccess();
-
         try {
+            IPickerDataAccess pickerDataAccess = new PickerDataAccess();
+            String body = request.getBody();
+            Picker p = gsonObj.fromJson(body, Picker.class);
             pickerDataAccess.create(p);
 
             Picker addedPicker = pickerDataAccess.getPickerByName(p.getName());
@@ -79,12 +75,12 @@ public class PickerAPIRequestHandler implements RequestHandler<APIGatewayProxyRe
                                                     Context context) {
         LambdaLogger logger = context.getLogger();
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
-        String path = request.getPath();
-        logger.log("Incoming path: "+path);
         Gson gsonObj = new Gson();
-        IPickerDataAccess pickerDataAccess = new PickerDataAccess();
 
         try {
+            String path = request.getPath();
+            IPickerDataAccess pickerDataAccess = new PickerDataAccess();
+
             if (path.endsWith("/pickers")) {
                 List<Picker> pickers = pickerDataAccess.getAllPickers();
                 logger.log("response bod: " + gsonObj.toJson(pickers));
@@ -109,11 +105,11 @@ public class PickerAPIRequestHandler implements RequestHandler<APIGatewayProxyRe
                                                     Context context) {
         LambdaLogger logger = context.getLogger();
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
-        String body = request.getBody();
         Gson gsonObj = new Gson();
-        IPickerDataAccess pickerDataAccess = new PickerDataAccess();
 
         try {
+            IPickerDataAccess pickerDataAccess = new PickerDataAccess();
+            String body = request.getBody();
             String id = request.getPathParameters().get("pickerId");
             Picker p = gsonObj.fromJson(body, Picker.class);
             p.setId(Integer.parseInt(id));
@@ -134,11 +130,11 @@ public class PickerAPIRequestHandler implements RequestHandler<APIGatewayProxyRe
                                                        Context context) {
         LambdaLogger logger = context.getLogger();
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
-        String path = request.getPath();
         Gson gsonObj = new Gson();
-        IPickerDataAccess pickerDataAccess = new PickerDataAccess();
 
         try {
+            String path = request.getPath();
+            IPickerDataAccess pickerDataAccess = new PickerDataAccess();
             Integer id = Integer.parseInt(path.substring(path.lastIndexOf('/') + 1));
             pickerDataAccess.deletePicker(id);
             response.setStatusCode(200);

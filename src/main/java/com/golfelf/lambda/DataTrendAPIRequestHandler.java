@@ -8,7 +8,6 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent
 import com.golfelf.dataaccess.*;
 import com.google.gson.Gson;
 
-import java.sql.SQLException;
 import java.util.Locale;
 import java.util.Map;
 
@@ -41,10 +40,10 @@ public class DataTrendAPIRequestHandler implements RequestHandler<APIGatewayProx
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
         Gson gsonObj = new Gson();
 
-        DataTrendAccess dailyDataTrendAccess = new PastWeekDailyTrendAccess();
-        DataTrendAccess monthlyDataTrendAccess = new PastYearMonthlyDataTrendAccess();
-
         try {
+            DataTrendAccess dailyDataTrendAccess = new PastWeekDailyTrendAccess();
+            DataTrendAccess monthlyDataTrendAccess = new PastYearMonthlyDataTrendAccess();
+
             dailyDataTrendAccess.getTrendData();
             monthlyDataTrendAccess.getTrendData();
 

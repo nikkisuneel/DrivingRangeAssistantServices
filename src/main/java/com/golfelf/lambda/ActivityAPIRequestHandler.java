@@ -48,15 +48,12 @@ public class ActivityAPIRequestHandler implements RequestHandler<APIGatewayProxy
                                                      Context context) {
         LambdaLogger logger = context.getLogger();
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
-        String body = request.getBody();
-
         Gson gsonObj = Utils.getGsonWithFormatters();
 
-        Activity inputActivity = gsonObj.fromJson(body, Activity.class);
-
-        IActivityDataAccess activityDataAccess = new ActivityDataAccess();
-
         try {
+            String body = request.getBody();
+            Activity inputActivity = gsonObj.fromJson(body, Activity.class);
+            IActivityDataAccess activityDataAccess = new ActivityDataAccess();
             activityDataAccess.create(inputActivity);
             Activity createdActivity = activityDataAccess.getActivityByDate(inputActivity.getActivityDate());
             response.setBody(gsonObj.toJson(createdActivity));
@@ -76,9 +73,8 @@ public class ActivityAPIRequestHandler implements RequestHandler<APIGatewayProxy
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
         Gson gsonObj = Utils.getGsonWithFormatters();
 
-        IActivityDataAccess activityDataAccess = new ActivityDataAccess();
-
         try {
+            IActivityDataAccess activityDataAccess = new ActivityDataAccess();
             List<Activity> activities = activityDataAccess.getAllActivities();
             response.setBody(gsonObj.toJson(activities));
             response.setStatusCode(200);
@@ -95,11 +91,11 @@ public class ActivityAPIRequestHandler implements RequestHandler<APIGatewayProxy
                                                     Context context) {
         LambdaLogger logger = context.getLogger();
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
-        String body = request.getBody();
         Gson gsonObj = Utils.getGsonWithFormatters();
-        IActivityDataAccess activityDataAccess = new ActivityDataAccess();
 
         try {
+            String body = request.getBody();
+            IActivityDataAccess activityDataAccess = new ActivityDataAccess();
             String id = request.getPathParameters().get("activityId");
             Activity a = gsonObj.fromJson(body, Activity.class);
             a.setId(Integer.parseInt(id));
