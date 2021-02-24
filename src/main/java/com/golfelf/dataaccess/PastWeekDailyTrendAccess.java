@@ -30,7 +30,7 @@ public class PastWeekDailyTrendAccess extends DataTrendAccess {
                     " DATE_PART('minute', end_time::timestamp - start_time::timestamp)" +
                     " ) as minutes" +
                     " FROM driving_range.activity " +
-                    " WHERE activity_date >= NOW() - interval '1 week'" +
+                    " WHERE activity_date >= NOW() at time zone 'PST' - interval '1 week'" +
                     " GROUP BY date_trunc('day', activity_date) " +
                     " ORDER BY date_trunc('day', activity_date)";
             PreparedStatement stmt = conn.prepareStatement(query);
