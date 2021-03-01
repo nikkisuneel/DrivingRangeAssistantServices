@@ -2,7 +2,7 @@ package com.golfelf.dataaccess;
 
 import java.util.Map;
 
-public abstract class DataTrendAccess {
+public abstract class DataTrendDataAccess {
     protected Map<String, Integer> ballCountData;
     protected Map<String, Integer> activityTimeData;
 

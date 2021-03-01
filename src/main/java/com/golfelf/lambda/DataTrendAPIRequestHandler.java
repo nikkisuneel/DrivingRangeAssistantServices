@@ -41,8 +41,8 @@ public class DataTrendAPIRequestHandler implements RequestHandler<APIGatewayProx
         Gson gsonObj = new Gson();
 
         try {
-            DataTrendAccess dailyDataTrendAccess = new PastWeekDailyTrendAccess();
-            DataTrendAccess monthlyDataTrendAccess = new PastYearMonthlyDataTrendAccess();
+            DataTrendDataAccess dailyDataTrendAccess = new PastWeekDailyTrendSQLDataAccess();
+            DataTrendDataAccess monthlyDataTrendAccess = new PastYearMonthlyDataTrendSQLDataAccess();
 
             dailyDataTrendAccess.getTrendData();
             monthlyDataTrendAccess.getTrendData();

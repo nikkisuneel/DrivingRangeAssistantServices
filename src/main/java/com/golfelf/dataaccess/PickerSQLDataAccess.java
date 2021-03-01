@@ -11,7 +11,7 @@ import java.util.List;
 import com.golfelf.util.DBConnectionManager;
 import org.apache.log4j.Logger;
 
-public class PickerDataAccess implements IPickerDataAccess{
+public class PickerSQLDataAccess implements IPickerDataAccess{
     private Logger logger = Logger.getLogger("PickerDataAccess");
 
     @Override

@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.apache.log4j.Logger;
 
-public class ActivityDataAccess implements IActivityDataAccess{
+public class ActivitySQLDataAccess implements IActivityDataAccess{
     private Logger logger = Logger.getLogger("PickerDataAccess");
 
     @Override

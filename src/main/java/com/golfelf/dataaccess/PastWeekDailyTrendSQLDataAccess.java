@@ -10,10 +10,9 @@ import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.sql.Date;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-public class PastWeekDailyTrendAccess extends DataTrendAccess {
+public class PastWeekDailyTrendSQLDataAccess extends DataTrendDataAccess {
     private Logger logger = Logger.getLogger("PastYearDataTrend");
 
     @Override

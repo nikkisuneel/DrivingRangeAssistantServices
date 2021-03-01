@@ -6,7 +6,7 @@ import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.golfelf.dataaccess.IPickerDataAccess;
-import com.golfelf.dataaccess.PickerDataAccess;
+import com.golfelf.dataaccess.PickerSQLDataAccess;
 import com.golfelf.drivingrange.Picker;
 import com.google.gson.Gson;
 
@@ -52,7 +52,7 @@ public class PickerAPIRequestHandler implements RequestHandler<APIGatewayProxyRe
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
         Gson gsonObj = new Gson();
         try {
-            IPickerDataAccess pickerDataAccess = new PickerDataAccess();
+            IPickerDataAccess pickerDataAccess = new PickerSQLDataAccess();
             String body = request.getBody();
             Picker p = gsonObj.fromJson(body, Picker.class);
             pickerDataAccess.create(p);
@@ -79,7 +79,7 @@ public class PickerAPIRequestHandler implements RequestHandler<APIGatewayProxyRe
 
         try {
             String path = request.getPath();
-            IPickerDataAccess pickerDataAccess = new PickerDataAccess();
+            IPickerDataAccess pickerDataAccess = new PickerSQLDataAccess();
 
             if (path.endsWith("/pickers")) {
                 List<Picker> pickers = pickerDataAccess.getAllPickers();
@@ -108,7 +108,7 @@ public class PickerAPIRequestHandler implements RequestHandler<APIGatewayProxyRe
         Gson gsonObj = new Gson();
 
         try {
-            IPickerDataAccess pickerDataAccess = new PickerDataAccess();
+            IPickerDataAccess pickerDataAccess = new PickerSQLDataAccess();
             String body = request.getBody();
             String id = request.getPathParameters().get("pickerId");
             Picker p = gsonObj.fromJson(body, Picker.class);
@@ -134,7 +134,7 @@ public class PickerAPIRequestHandler implements RequestHandler<APIGatewayProxyRe
 
         try {
             String path = request.getPath();
-            IPickerDataAccess pickerDataAccess = new PickerDataAccess();
+            IPickerDataAccess pickerDataAccess = new PickerSQLDataAccess();
             Integer id = Integer.parseInt(path.substring(path.lastIndexOf('/') + 1));
             pickerDataAccess.deletePicker(id);
             response.setStatusCode(200);
