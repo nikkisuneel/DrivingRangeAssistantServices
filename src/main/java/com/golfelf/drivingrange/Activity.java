@@ -31,7 +31,7 @@ public class Activity {
         setEndTime(endTime);
     }
 
-    public Activity(Integer id,
+    public Activity(int id,
                     LocalDateTime activityDate,
                     int ballCount,
                     Map<String, Integer> pickerCounts,

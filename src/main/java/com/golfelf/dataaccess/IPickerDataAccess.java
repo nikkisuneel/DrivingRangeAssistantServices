@@ -2,7 +2,6 @@ package com.golfelf.dataaccess;
 
 import com.golfelf.drivingrange.Picker;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface IPickerDataAccess {

@@ -14,7 +14,7 @@ The following deployment steps are needed
 - Login to AWS management console. Perform the following steps using the console.
 - Create a new API in AWS API gateway. See https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
 - Use the openapi.yaml to create the resources and their corresponding methods
-- Configure each of teh resource methods to use their corresponding Lambda functions. See https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-integrations.html
+- Configure each of the resource methods to use their corresponding Lambda functions. See https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-integrations.html
   * For /activities API methods, integrate with ActivityManagement Lambda function
   * For /pickers API methods, integrate with PickerManagement Lambda function
   * For /trends API methods, integrate with TrendGeneration Lambda function  
@@ -27,4 +27,4 @@ The following deployment steps are needed
       * Use com.golfelf.lambda.DataTrendAPIRequestHandler::handleRequest as the Handler Runtime Setting
 - Navigate to Database -> RDS and create a Postgres database, named driving-range, using instructions at https://aws.amazon.com/getting-started/tutorials/create-connect-postgresql-db/
 - Download pgAdmin from https://www.pgadmin.org/download/
-- Using pgAdmin, run the sql/create_table_activity.sql and sql/create_table_picker.sql scripts to create the activity and picker tables
+- Using pgAdmin, run the src/main/sql/create_table_activity.sql and src/main/sql/create_table_picker.sql scripts to create the activity and picker tables

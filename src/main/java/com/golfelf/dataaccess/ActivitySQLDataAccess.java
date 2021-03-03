@@ -20,6 +20,10 @@ public class ActivitySQLDataAccess implements IActivityDataAccess{
     @Override
     public void create(Activity activity) throws Exception {
         try {
+            if (activity == null) {
+                throw new IllegalArgumentException("activity cannot be null");
+            }
+
             Connection conn = DBConnectionManager.dbConnection;
             String insertStatement = "INSERT INTO driving_range.activity" +
                     " (activity_date, ball_count, picker_counts, start_time, end_time)" +
@@ -105,18 +109,20 @@ public class ActivitySQLDataAccess implements IActivityDataAccess{
                                 : rs.getTimestamp(6).toLocalDateTime()
                 );
             }
+            return result;
         } catch (Exception e) {
             logger.warn(e);
             throw e;
-        } finally {
-            return result;
         }
     }
 
     @Override
-    public Activity getActivityByDate(LocalDateTime dateTime) {
+    public Activity getActivityByDate(LocalDateTime dateTime) throws Exception{
         Activity result = new Activity();
         try {
+            if (dateTime == null) {
+                throw new IllegalArgumentException("dateTime cannot be null");
+            }
             Connection conn = DBConnectionManager.dbConnection;
             String query = "SELECT id, activity_date, ball_count, picker_counts, start_time, end_time" +
                     " FROM driving_range.activity" +
@@ -142,11 +148,10 @@ public class ActivitySQLDataAccess implements IActivityDataAccess{
                                 : rs.getTimestamp(6).toLocalDateTime()
                 );
             }
+            return result;
         } catch (Exception e) {
             logger.warn(e);
             throw e;
-        } finally {
-            return result;
         }
     }
 
@@ -173,11 +178,10 @@ public class ActivitySQLDataAccess implements IActivityDataAccess{
             stmt.setInt(3, activity.getId());
             stmt.executeUpdate();
             result = activity;
+            return result;
         } catch (Exception e) {
             logger.warn(e);
             throw e;
-        } finally {
-            return result;
         }
     }
 }

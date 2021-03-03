@@ -17,6 +17,10 @@ public class PickerSQLDataAccess implements IPickerDataAccess{
     @Override
     public void create(Picker picker) throws Exception {
         try {
+            if (picker == null) {
+                throw new IllegalArgumentException("picker cannot be null");
+            }
+
             Connection conn = DBConnectionManager.dbConnection;
             String insertStatement = "INSERT INTO driving_range.picker(name, type, throughput)" +
                 " VALUES (?, ?, ?)";
@@ -47,34 +51,42 @@ public class PickerSQLDataAccess implements IPickerDataAccess{
                 result.setType(rs.getString(3));
                 result.setThroughput(rs.getInt(4));
             }
+            return result;
         } catch (Exception e) {
             logger.warn(e);
             throw e;
-        } finally {
-            return result;
         }
     }
 
+    @Override
     public Picker getPickerByName(String name) throws Exception {
         Picker result = new Picker();
         try {
+            if (name == null || name.isEmpty()) {
+                throw new IllegalArgumentException("name cannot be null or empty");
+            }
+
             Connection conn = DBConnectionManager.dbConnection;
             String query = "SELECT id, name, type, throughput FROM driving_range.picker" +
                     " WHERE name = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, name);
             ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
+            int count = 0;
+            while (rs.next()) {
+                count++;
                 result.setId(rs.getInt(1));
                 result.setName(rs.getString(2));
                 result.setType(rs.getString(3));
                 result.setThroughput(rs.getInt(4));
             }
+            if (count > 1) {
+                throw new RuntimeException("Got more than one record for " + name);
+            }
+            return result;
         } catch (Exception e) {
             logger.warn(e);
             throw e;
-        } finally {
-            return result;
         }
     }
 
@@ -117,11 +129,10 @@ public class PickerSQLDataAccess implements IPickerDataAccess{
             stmt.setInt(4, picker.getId());
             stmt.executeUpdate();
             result = picker;
+            return result;
         } catch (Exception e) {
             logger.warn(e);
             throw e;
-        } finally {
-            return result;
         }
     }
 
