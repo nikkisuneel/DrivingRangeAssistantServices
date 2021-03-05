@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2021. Nikhila (Nikki) Suneel. All Rights Reserved.
+ */
+
 package com.golfelf.drivingrange;
 
 import java.time.LocalDateTime;
@@ -46,8 +50,12 @@ public class Activity {
     }
 
     public void setActivityDate(LocalDateTime activityDate) {
+        if (activityDate == null) {
+            throw new IllegalArgumentException("activityDate must not be null");
+        }
         this.activityDate = activityDate;
     }
+
 
     public int getBallCount() {
         return ballCount;
@@ -62,6 +70,12 @@ public class Activity {
     }
 
     public void setPickerCounts(Map<String, Integer> pickerCounts) {
+        if (pickerCounts == null) {
+            throw new IllegalArgumentException("pickerCounts must not be null");
+        }
+        if (pickerCounts.isEmpty()) {
+            throw new IllegalArgumentException("pickerCounts must not be empty");
+        }
         this.pickerCounts = pickerCounts;
     }
 
@@ -70,6 +84,9 @@ public class Activity {
     }
 
     public void setStartTime(LocalDateTime startTime) {
+        if (startTime == null) {
+            throw new IllegalArgumentException("startTime must not be null");
+        }
         this.startTime = startTime;
     }
 

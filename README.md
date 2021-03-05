@@ -25,6 +25,12 @@ The following deployment steps are needed
       * Use com.golfelf.lambda.PickerAPIRequestHandler::handleRequest as the Handler Runtime Setting
     * TrendGeneration
       * Use com.golfelf.lambda.DataTrendAPIRequestHandler::handleRequest as the Handler Runtime Setting
-- Navigate to Database -> RDS and create a Postgres database, named driving-range, using instructions at https://aws.amazon.com/getting-started/tutorials/create-connect-postgresql-db/
+- Navigate to Database -> RDS and create a Postgres database using instructions at https://aws.amazon.com/getting-started/tutorials/create-connect-postgresql-db/
+  Use the following scripts under the src/main/sql directory to build the database.
+    * Create Database: create_database.sql
+    * Create Schema: create_schema.sql
+    * Create tables: create_table_activity.sql
+        * create_table_activity.sql
+        * create_table_picker.sql
 - Download pgAdmin from https://www.pgadmin.org/download/
 - Using pgAdmin, run the src/main/sql/create_table_activity.sql and src/main/sql/create_table_picker.sql scripts to create the activity and picker tables

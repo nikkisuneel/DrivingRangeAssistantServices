@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2021. Nikhila (Nikki) Suneel. All Rights Reserved.
+ */
+
 package com.golfelf.lambda;
 
 import com.amazonaws.services.lambda.runtime.Context;
@@ -8,6 +12,7 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent
 import com.golfelf.dataaccess.*;
 import com.google.gson.Gson;
 
+import java.sql.SQLException;
 import java.util.Locale;
 import java.util.Map;
 
@@ -28,6 +33,7 @@ public class DataTrendAPIRequestHandler implements RequestHandler<APIGatewayProx
         } catch (Exception e) {
             logger.log(e.getMessage());
             response = new APIGatewayProxyResponseEvent();
+            response.setBody(e.getMessage());
             response.setStatusCode(500);
         } finally {
             return response;
@@ -61,10 +67,10 @@ public class DataTrendAPIRequestHandler implements RequestHandler<APIGatewayProx
             response.setBody(gsonObj.toJson(dtObj));
 
             response.setStatusCode(200);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             logger.log(gsonObj.toJson(e));
-            response.setBody(gsonObj.toJson(e));
-            response.setStatusCode(400);
+            response.setBody(gsonObj.toJson(e.getMessage()));
+            response.setStatusCode(500);
         } finally {
             return response;
         }

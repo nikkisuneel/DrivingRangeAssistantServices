@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2021. Nikhila (Nikki) Suneel. All Rights Reserved.
+ */
+
 package com.golfelf.dataaccess;
 
 import java.sql.Connection;
@@ -29,7 +33,7 @@ public class PickerSQLDataAccess implements IPickerDataAccess{
     }
 
     @Override
-    public Picker getPicker(int id) throws SQLException {
+    public Picker getPicker(int id) throws IllegalArgumentException, SQLException {
         Picker result = new Picker();
 
         Connection conn = DBConnectionManager.dbConnection;
@@ -43,6 +47,8 @@ public class PickerSQLDataAccess implements IPickerDataAccess{
             result.setName(rs.getString(2));
             result.setType(rs.getString(3));
             result.setThroughput(rs.getInt(4));
+        } else {
+            throw new IllegalArgumentException("no picker found for " + id);
         }
 
         return result;
@@ -69,6 +75,10 @@ public class PickerSQLDataAccess implements IPickerDataAccess{
             result.setName(rs.getString(2));
             result.setType(rs.getString(3));
             result.setThroughput(rs.getInt(4));
+        }
+
+        if (count == 0) {
+            throw new IllegalArgumentException("No picker was found for " + name);
         }
 
         if (count > 1) {
@@ -99,6 +109,10 @@ public class PickerSQLDataAccess implements IPickerDataAccess{
 
     @Override
     public Picker updatePicker(Picker picker) throws SQLException {
+        if (picker == null) {
+            throw new IllegalArgumentException("picker must not be null");
+        }
+
         Connection conn = DBConnectionManager.dbConnection;
         String updateStatement = "UPDATE driving_range.picker " +
                 " SET name = ?, type = ?, throughput = ? " +

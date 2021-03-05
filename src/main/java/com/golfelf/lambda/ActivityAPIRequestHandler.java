@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2021. Nikhila (Nikki) Suneel. All Rights Reserved.
+ */
+
 package com.golfelf.lambda;
 
 import com.amazonaws.services.lambda.runtime.Context;
@@ -11,6 +15,7 @@ import com.golfelf.drivingrange.Activity;
 import com.golfelf.util.Utils;
 import com.google.gson.Gson;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Locale;
 
@@ -37,6 +42,7 @@ public class ActivityAPIRequestHandler implements RequestHandler<APIGatewayProxy
         } catch (Exception e) {
             logger.log(e.getMessage());
             response = new APIGatewayProxyResponseEvent();
+            response.setBody(e.getMessage());
             response.setStatusCode(500);
         } finally {
             return response;
@@ -57,10 +63,14 @@ public class ActivityAPIRequestHandler implements RequestHandler<APIGatewayProxy
             Activity createdActivity = activityDataAccess.getActivityByDate(inputActivity.getActivityDate());
             response.setBody(gsonObj.toJson(createdActivity));
             response.setStatusCode(200);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             logger.log(gsonObj.toJson(e));
-            response.setBody(gsonObj.toJson(e));
+            response.setBody(gsonObj.toJson(e.getMessage()));
             response.setStatusCode(400);
+        } catch (SQLException e) {
+            logger.log(gsonObj.toJson(e));
+            response.setBody(gsonObj.toJson(e.getMessage()));
+            response.setStatusCode(500);
         } finally {
             return response;
         }
@@ -77,10 +87,10 @@ public class ActivityAPIRequestHandler implements RequestHandler<APIGatewayProxy
             List<Activity> activities = activityDataAccess.getAllActivities();
             response.setBody(gsonObj.toJson(activities));
             response.setStatusCode(200);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             logger.log(gsonObj.toJson(e));
-            response.setBody(gsonObj.toJson(e));
-            response.setStatusCode(400);
+            response.setBody(gsonObj.toJson(e.getMessage()));
+            response.setStatusCode(500);
         } finally {
             return response;
         }
@@ -102,10 +112,10 @@ public class ActivityAPIRequestHandler implements RequestHandler<APIGatewayProxy
             Activity updatedActivity = activityDataAccess.getActivity(Integer.parseInt(id));
             response.setBody(gsonObj.toJson(updatedActivity));
             response.setStatusCode(200);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             logger.log(gsonObj.toJson(e));
-            response.setBody(gsonObj.toJson(e));
-            response.setStatusCode(400);
+            response.setBody(gsonObj.toJson(e.getMessage()));
+            response.setStatusCode(500);
         } finally {
             return response;
         }

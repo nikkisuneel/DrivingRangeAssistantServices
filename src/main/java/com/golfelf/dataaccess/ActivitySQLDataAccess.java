@@ -1,8 +1,13 @@
+/*
+ * Copyright (c) 2021. Nikhila (Nikki) Suneel. All Rights Reserved.
+ */
+
 package com.golfelf.dataaccess;
 
 import java.lang.reflect.Type;
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -71,7 +76,7 @@ public class ActivitySQLDataAccess implements IActivityDataAccess{
     }
 
     @Override
-    public Activity getActivity(int id) throws SQLException {
+    public Activity getActivity(int id) throws IllegalArgumentException, SQLException {
         Activity result = new Activity();
 
         Connection conn = DBConnectionManager.dbConnection;
@@ -98,6 +103,8 @@ public class ActivitySQLDataAccess implements IActivityDataAccess{
                             ? null
                             : rs.getTimestamp(6).toLocalDateTime()
             );
+        } else {
+            throw new IllegalArgumentException("No activity found for " + id);
         }
 
         return result;
@@ -134,6 +141,8 @@ public class ActivitySQLDataAccess implements IActivityDataAccess{
                             ? null
                             : rs.getTimestamp(6).toLocalDateTime()
             );
+        } else {
+            throw new IllegalArgumentException("No activity found for " + dateTime.format(DateTimeFormatter.ISO_DATE));
         }
 
         return result;

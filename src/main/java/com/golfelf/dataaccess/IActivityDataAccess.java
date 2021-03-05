@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2021. Nikhila (Nikki) Suneel. All Rights Reserved.
+ */
+
 package com.golfelf.dataaccess;
 
 import com.golfelf.drivingrange.Activity;
@@ -11,7 +15,7 @@ public interface IActivityDataAccess {
 
     List<Activity> getAllActivities() throws SQLException;
 
-    Activity getActivity(int id) throws SQLException;
+    Activity getActivity(int id) throws IllegalArgumentException, SQLException;
 
     Activity getActivityByDate(LocalDateTime dateTime) throws IllegalArgumentException, SQLException;
 

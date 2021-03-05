@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2021. Nikhila (Nikki) Suneel. All Rights Reserved.
+ */
+
 package com.golfelf.dataaccess;
 
 import com.golfelf.drivingrange.Picker;
@@ -8,7 +12,7 @@ import java.util.List;
 public interface IPickerDataAccess {
     void create(Picker picker) throws IllegalArgumentException, SQLException;
 
-    Picker getPicker(int id) throws SQLException;
+    Picker getPicker(int id) throws IllegalArgumentException, SQLException;
 
     Picker getPickerByName(String name) throws IllegalArgumentException, SQLException;
 

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2021. Nikhila (Nikki) Suneel. All Rights Reserved.
+ */
+
 package com.golfelf.drivingrange;
 
 public class Picker {
@@ -24,6 +28,9 @@ public class Picker {
     }
 
     public void setName(String name) {
+        if (name == null ) {
+            throw new IllegalArgumentException("Name must not be null");
+        }
         this.name = name;
     }
 
@@ -32,6 +39,12 @@ public class Picker {
     }
 
     public void setType(String type) {
+        if (type == null) {
+            throw new IllegalArgumentException("type must not be null");
+        }
+        if (type.toLowerCase() != "manual" && type.toLowerCase() != "automatic") {
+            throw new IllegalArgumentException("type must be Manual or Automatic");
+        }
         this.type = type;
     }
 
@@ -40,6 +53,9 @@ public class Picker {
     }
 
     public void setThroughput(int throughput) {
+        if (throughput > 5000) {
+            throw new IllegalArgumentException("Throughput must be less than 5000");
+        }
         this.throughput = throughput;
     }
 
