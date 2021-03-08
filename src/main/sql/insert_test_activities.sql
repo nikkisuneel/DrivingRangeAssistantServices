@@ -1,3 +1,6 @@
+-- A script to create test data to populate the activity table
+-- Used for generating data trend charts
+
 DELETE FROM driving_range.activity;
 
 INSERT INTO driving_range.activity (activity_date, ball_count, picker_counts, start_time, end_time)

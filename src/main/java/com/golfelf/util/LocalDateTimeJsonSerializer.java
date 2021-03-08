@@ -13,6 +13,10 @@ import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/*
+ * A json serializer to serialize a LocalDateTime in the ISO_LOCAL_DATE_TIME format.
+ * Used by gson libraries to serialize
+ */
 public class LocalDateTimeJsonSerializer implements JsonSerializer<LocalDateTime> {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 

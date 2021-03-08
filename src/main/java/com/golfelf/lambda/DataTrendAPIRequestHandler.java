@@ -16,6 +16,9 @@ import java.sql.SQLException;
 import java.util.Locale;
 import java.util.Map;
 
+/*
+ * A Lambda handler for processing Data Trend APIs
+ */
 public class DataTrendAPIRequestHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent apiGatewayProxyRequestEvent,
                                                       Context context) {

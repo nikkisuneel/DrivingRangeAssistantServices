@@ -9,6 +9,9 @@ import com.golfelf.drivingrange.Picker;
 import java.sql.SQLException;
 import java.util.List;
 
+/*
+ * An interface that defines the methods to access Picker data from storage
+ */
 public interface IPickerDataAccess {
     void create(Picker picker) throws IllegalArgumentException, SQLException;
 

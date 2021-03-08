@@ -11,6 +11,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 
+/*
+ * An implementation using SQL to retrieve the monthly ball count and activity time data
+ * over the past year.
+ */
 public class PastYearMonthlyDataTrendSQLDataAccess extends DataTrendDataAccess {
 
     @Override

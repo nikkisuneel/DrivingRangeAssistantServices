@@ -9,6 +9,9 @@ import com.google.gson.GsonBuilder;
 
 import java.time.LocalDateTime;
 
+/*
+ * A class with helper methods
+ */
 public class Utils {
     public static Gson getGsonWithFormatters() {
         GsonBuilder gsonBuilder = new GsonBuilder();

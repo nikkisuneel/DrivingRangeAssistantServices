@@ -9,6 +9,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import org.apache.log4j.Logger;
 
+/*
+ * A class that returns a database connection to a Postgres database
+ */
 public class DBConnectionManager {
     public static Connection dbConnection;
     private static Logger logger = Logger.getLogger("DBConnectionManager");

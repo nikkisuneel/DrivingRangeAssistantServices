@@ -4,11 +4,14 @@
 
 package com.golfelf.drivingrange;
 
+/*
+ * A class that defines the attributes of a Picker
+ */
 public class Picker {
-    private int id;
+    private int id; // A unique identifier for a Picker
     private String name;
-    private String type;
-    private int throughput;
+    private String type; // Either "Manual" or "Automatic"
+    private int throughput; // The number of balls that can be picker per minute by this picker
 
     public Picker() {}
 
@@ -69,6 +72,9 @@ public class Picker {
         this.id = id;
     }
 
+    /*
+     * An override of the equals method to compare two Pickers
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {
@@ -80,6 +86,7 @@ public class Picker {
         }
         Picker p = (Picker) obj;
 
+        // Since id is unique, if two pickers have the same id, they must be equal
         if (this.id == p.getId()) {
             return true;
         }

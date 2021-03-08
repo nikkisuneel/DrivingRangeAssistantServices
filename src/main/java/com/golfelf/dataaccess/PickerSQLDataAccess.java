@@ -14,6 +14,9 @@ import java.util.List;
 import com.golfelf.drivingrange.Picker;
 import com.golfelf.util.DBConnectionManager;
 
+/*
+ * An implementation of the IPickerDataAccess interface for picker data access from SQL
+ */
 public class PickerSQLDataAccess implements IPickerDataAccess{
 
     @Override

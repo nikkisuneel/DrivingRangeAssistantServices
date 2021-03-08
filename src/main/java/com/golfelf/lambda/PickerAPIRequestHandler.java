@@ -18,6 +18,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Locale;
 
+/*
+ * A Lambda handler for processing Picker APIs
+ */
 public class PickerAPIRequestHandler implements RequestHandler<APIGatewayProxyRequestEvent,
         APIGatewayProxyResponseEvent> {
 

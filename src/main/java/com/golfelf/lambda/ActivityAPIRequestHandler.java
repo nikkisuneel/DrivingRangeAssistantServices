@@ -19,6 +19,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Locale;
 
+/*
+ * A Lambda handler for processing Activity APIs
+ */
 public class ActivityAPIRequestHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent apiGatewayProxyRequestEvent,
                                                       Context context) {

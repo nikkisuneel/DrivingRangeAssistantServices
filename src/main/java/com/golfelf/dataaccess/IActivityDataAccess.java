@@ -10,6 +10,9 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/*
+ * An interface that defines the methods to access Activity data from storage
+ */
 public interface IActivityDataAccess {
     void create(Activity activity) throws IllegalArgumentException, SQLException;
 

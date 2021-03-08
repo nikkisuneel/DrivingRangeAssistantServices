@@ -7,11 +7,14 @@ package com.golfelf.drivingrange;
 import java.time.LocalDateTime;
 import java.util.Map;
 
+/*
+ * A class that defines an activity of picking golf balls on the range
+ */
 public class Activity {
-    private int id;
+    private int id; // Unique identifier for an activity
     private LocalDateTime activityDate;
-    private int ballCount;
-    private Map<String, Integer> pickerCounts;
+    private int ballCount; // Number of balls estimated to be picked
+    private Map<String, Integer> pickerCounts; // A map containing different pickers and their counts used for picking
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 
@@ -105,6 +108,7 @@ public class Activity {
         this.id = id;
     }
 
+    // Since id is unique, if two activities have the same id, they must be equal
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {

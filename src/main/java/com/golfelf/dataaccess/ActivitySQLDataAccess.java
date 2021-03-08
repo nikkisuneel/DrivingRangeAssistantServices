@@ -18,6 +18,9 @@ import com.golfelf.drivingrange.Activity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+/*
+ * An implementation of the IActivityDataAccess interface for activity data access from SQL
+ */
 public class ActivitySQLDataAccess implements IActivityDataAccess{
 
     @Override

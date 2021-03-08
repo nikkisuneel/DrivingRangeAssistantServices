@@ -11,6 +11,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 
+/*
+ * An implementation using SQL to retrieve the past week's ball count and activity time data
+ */
 public class PastWeekDailyTrendSQLDataAccess extends DataTrendDataAccess {
 
     @Override
