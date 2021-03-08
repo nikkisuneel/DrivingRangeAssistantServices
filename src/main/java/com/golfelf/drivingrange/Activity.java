@@ -56,7 +56,6 @@ public class Activity {
         this.activityDate = activityDate;
     }
 
-
     public int getBallCount() {
         return ballCount;
     }
@@ -104,5 +103,22 @@ public class Activity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+
+        if (!(obj instanceof Activity)) {
+            return false;
+        }
+        Activity a = (Activity) obj;
+
+        if (this.id == a.getId()) {
+            return true;
+        }
+        return false;
     }
 }

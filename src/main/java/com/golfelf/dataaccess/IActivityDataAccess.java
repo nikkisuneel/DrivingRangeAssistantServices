@@ -13,7 +13,7 @@ import java.util.List;
 public interface IActivityDataAccess {
     void create(Activity activity) throws IllegalArgumentException, SQLException;
 
-    List<Activity> getAllActivities() throws SQLException;
+    List<Activity> getAllActivities() throws IllegalArgumentException, SQLException;
 
     Activity getActivity(int id) throws IllegalArgumentException, SQLException;
 

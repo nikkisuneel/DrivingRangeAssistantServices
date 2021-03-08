@@ -49,7 +49,7 @@ public class ActivitySQLDataAccess implements IActivityDataAccess{
     }
 
     @Override
-    public List<Activity> getAllActivities() throws SQLException {
+    public List<Activity> getAllActivities() throws IllegalArgumentException, SQLException {
         List<Activity> result = new ArrayList<>();
 
         Connection conn = DBConnectionManager.dbConnection;

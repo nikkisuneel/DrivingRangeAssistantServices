@@ -40,11 +40,13 @@ public class Picker {
 
     public void setType(String type) {
         if (type == null) {
-            throw new IllegalArgumentException("type must not be null");
+            throw new IllegalArgumentException("type must be not be null");
         }
-        if (type.toLowerCase() != "manual" && type.toLowerCase() != "automatic") {
+
+        if (!type.equalsIgnoreCase("manual") && !type.equalsIgnoreCase("automatic")) {
             throw new IllegalArgumentException("type must be Manual or Automatic");
         }
+
         this.type = type;
     }
 
@@ -65,5 +67,22 @@ public class Picker {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+
+        if (!(obj instanceof Picker)) {
+            return false;
+        }
+        Picker p = (Picker) obj;
+
+        if (this.id == p.getId()) {
+            return true;
+        }
+        return false;
     }
 }

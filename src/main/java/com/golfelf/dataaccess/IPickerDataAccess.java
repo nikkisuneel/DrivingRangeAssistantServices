@@ -16,7 +16,7 @@ public interface IPickerDataAccess {
 
     Picker getPickerByName(String name) throws IllegalArgumentException, SQLException;
 
-    List<Picker> getAllPickers() throws SQLException;
+    List<Picker> getAllPickers() throws IllegalArgumentException, SQLException;
 
     Picker updatePicker(Picker picker) throws IllegalArgumentException, SQLException;
 

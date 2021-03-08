@@ -89,7 +89,7 @@ public class PickerSQLDataAccess implements IPickerDataAccess{
     }
 
     @Override
-    public List<Picker> getAllPickers() throws SQLException {
+    public List<Picker> getAllPickers() throws IllegalArgumentException, SQLException {
         List<Picker> result = new ArrayList<>();
 
         Connection conn = DBConnectionManager.dbConnection;

@@ -112,6 +112,10 @@ public class ActivityAPIRequestHandler implements RequestHandler<APIGatewayProxy
             Activity updatedActivity = activityDataAccess.getActivity(Integer.parseInt(id));
             response.setBody(gsonObj.toJson(updatedActivity));
             response.setStatusCode(200);
+        } catch (IllegalArgumentException e) {
+            logger.log(gsonObj.toJson(e));
+            response.setBody(gsonObj.toJson(e.getMessage()));
+            response.setStatusCode(400);
         } catch (SQLException e) {
             logger.log(gsonObj.toJson(e));
             response.setBody(gsonObj.toJson(e.getMessage()));

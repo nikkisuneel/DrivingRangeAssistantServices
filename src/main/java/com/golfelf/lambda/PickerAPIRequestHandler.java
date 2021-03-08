@@ -102,6 +102,10 @@ public class PickerAPIRequestHandler implements RequestHandler<APIGatewayProxyRe
                 response.setBody(gsonObj.toJson(p));
             }
             response.setStatusCode(200);
+        } catch (IllegalArgumentException e) {
+            logger.log(gsonObj.toJson(e));
+            response.setBody(gsonObj.toJson(e.getMessage()));
+            response.setStatusCode(400);
         } catch (SQLException e) {
             logger.log(gsonObj.toJson(e));
             response.setBody(gsonObj.toJson(e.getMessage()));
