@@ -17,8 +17,8 @@ public class DBConnectionManager {
         try {
             Class.forName("org.postgresql.Driver");
             String dbName = "driving_range";
-            String userName = "postgres";
-            String password = "F5T0w3rIam!";
+            String userName = "xxxxxxx";
+            String password = "xxxxxxx";
             String hostname = "sp-driving-range.ch1tjgsx0t79.us-east-1.rds.amazonaws.com";
             String port = "5432";
             String jdbcUrl = "jdbc:postgresql://" + hostname + ":" + port + "/" + dbName + "?user=" + userName + "&password=" + password;
