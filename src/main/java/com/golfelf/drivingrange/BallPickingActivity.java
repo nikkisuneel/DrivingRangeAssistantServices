@@ -10,7 +10,7 @@ import java.util.Map;
 /*
  * A class that defines an activity of picking golf balls on the range
  */
-public class Activity {
+public class BallPickingActivity {
     private int id; // Unique identifier for an activity
     private LocalDateTime activityDate;
     private int ballCount; // Number of balls estimated to be picked
@@ -18,32 +18,32 @@ public class Activity {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 
-    public Activity() {}
+    public BallPickingActivity() {}
 
-    public Activity(LocalDateTime activityDate,
-                    int ballCount,
-                    Map<String, Integer> pickerCounts) {
+    public BallPickingActivity(LocalDateTime activityDate,
+                               int ballCount,
+                               Map<String, Integer> pickerCounts) {
         setActivityDate(activityDate);
         setBallCount(ballCount);
         setPickerCounts(pickerCounts);
     }
 
-    public Activity(LocalDateTime activityDate,
-                    int ballCount,
-                    Map<String, Integer> pickerCounts,
-                    LocalDateTime startTime,
-                    LocalDateTime endTime) {
+    public BallPickingActivity(LocalDateTime activityDate,
+                               int ballCount,
+                               Map<String, Integer> pickerCounts,
+                               LocalDateTime startTime,
+                               LocalDateTime endTime) {
         this(activityDate, ballCount, pickerCounts);
         setStartTime(startTime);
         setEndTime(endTime);
     }
 
-    public Activity(int id,
-                    LocalDateTime activityDate,
-                    int ballCount,
-                    Map<String, Integer> pickerCounts,
-                    LocalDateTime startTime,
-                    LocalDateTime endTime) {
+    public BallPickingActivity(int id,
+                               LocalDateTime activityDate,
+                               int ballCount,
+                               Map<String, Integer> pickerCounts,
+                               LocalDateTime startTime,
+                               LocalDateTime endTime) {
         this(activityDate, ballCount, pickerCounts, startTime, endTime);
         setId(id);
     }
@@ -115,10 +115,10 @@ public class Activity {
             return true;
         }
 
-        if (!(obj instanceof Activity)) {
+        if (!(obj instanceof BallPickingActivity)) {
             return false;
         }
-        Activity a = (Activity) obj;
+        BallPickingActivity a = (BallPickingActivity) obj;
 
         if (this.id == a.getId()) {
             return true;

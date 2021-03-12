@@ -20,7 +20,7 @@ The following deployment steps are needed
   * For /trends API methods, integrate with TrendGeneration Lambda function  
 - Navigate to the Lambda console and create the following functions. For all the functions, upload the DrivingRangeAssistantServices.jar for the function code.
     * ActivityManagement
-      * Use com.golfelf.lambda.ActivityAPIRequestHandler::handleRequest as the Handler Runtime Setting
+      * Use com.golfelf.lambda.BallPickingActivityAPIRequestHandler::handleRequest as the Handler Runtime Setting
     * PickerManagement
       * Use com.golfelf.lambda.PickerAPIRequestHandler::handleRequest as the Handler Runtime Setting
     * TrendGeneration
@@ -33,4 +33,4 @@ The following deployment steps are needed
         * create_table_activity.sql
         * create_table_picker.sql
 - Download pgAdmin from https://www.pgadmin.org/download/
-- Using pgAdmin, run the src/main/sql/create_table_activity.sql and src/main/sql/create_table_picker.sql scripts to create the activity and picker tables
+- Using pgAdmin, run the src/main/sql/create_table_activity.sql and src/main/sql/create_table_picker.sql scripts to create the ballPickingActivity and picker tables

@@ -1,9 +1,9 @@
 -- A script to create test data to populate the activity table
 -- Used for generating data trend charts
 
-DELETE FROM driving_range.activity;
+DELETE FROM driving_range.ball_picking_activity;
 
-INSERT INTO driving_range.activity (activity_date, ball_count, picker_counts, start_time, end_time)
+INSERT INTO driving_range.ball_picking_activity (activity_date, ball_count, picker_counts, start_time, end_time)
 SELECT 
 	d activity_date,
 	CASE WHEN EXTRACT(MONTH from d) >= 1 AND EXTRACT(MONTH from d) <= 3

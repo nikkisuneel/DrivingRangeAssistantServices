@@ -1,13 +1,13 @@
--- Table: driving_range.activity
+-- Table: driving_range.ball_picking_activity
 
--- DROP TABLE driving_range.activity;
+-- DROP TABLE driving_range.ball_picking_activity;
 
-CREATE TABLE driving_range.activity (
+CREATE TABLE driving_range.ball_picking_activity (
     id SERIAL,
     activity_date TIMESTAMP NOT NULL,
     ball_count INTEGER NOT NULL,
     picker_counts VARCHAR(500) NOT NULL,
     start_time TIMESTAMP NOT NULL,
     end_time TIMESTAMP,
-CONSTRAINT activity_pkey PRIMARY KEY (id)
+CONSTRAINT ball_picking_activity_pkey PRIMARY KEY (id)
 )

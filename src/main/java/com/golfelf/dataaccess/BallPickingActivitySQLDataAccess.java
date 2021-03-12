@@ -12,59 +12,59 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.golfelf.drivingrange.BallPickingActivity;
 import com.golfelf.util.DBConnectionManager;
-import com.golfelf.drivingrange.Activity;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 /*
- * An implementation of the IActivityDataAccess interface for activity data access from SQL
+ * An implementation of the IBallPickingActivityDataAccess interface for activity data access from SQL
  */
-public class ActivitySQLDataAccess implements IActivityDataAccess{
+public class BallPickingActivitySQLDataAccess implements IBallPickingActivityDataAccess {
 
     @Override
-    public void create(Activity activity) throws IllegalArgumentException, SQLException {
-        if (activity == null) {
-            throw new IllegalArgumentException("activity cannot be null");
+    public void create(BallPickingActivity ballPickingActivity) throws IllegalArgumentException, SQLException {
+        if (ballPickingActivity == null) {
+            throw new IllegalArgumentException("ballPickingActivity cannot be null");
         }
 
         Connection conn = DBConnectionManager.dbConnection;
-        String insertStatement = "INSERT INTO driving_range.activity" +
+        String insertStatement = "INSERT INTO driving_range.ball_picking_activity" +
                 " (activity_date, ball_count, picker_counts, start_time, end_time)" +
                 " VALUES (?, ?, ?, ?, ?)";
         PreparedStatement stmt = conn.prepareStatement(insertStatement);
-        stmt.setTimestamp(1, Timestamp.valueOf(activity.getActivityDate()));
-        stmt.setInt(2, activity.getBallCount());
+        stmt.setTimestamp(1, Timestamp.valueOf(ballPickingActivity.getActivityDate()));
+        stmt.setInt(2, ballPickingActivity.getBallCount());
         Gson gsonObj = new Gson();
-        stmt.setString(3, gsonObj.toJson(activity.getPickerCounts()));
-        if (activity.getStartTime() == null) {
+        stmt.setString(3, gsonObj.toJson(ballPickingActivity.getPickerCounts()));
+        if (ballPickingActivity.getStartTime() == null) {
             stmt.setNull(4, Types.NULL);
         } else {
-            stmt.setTimestamp(4, Timestamp.valueOf(activity.getStartTime()));
+            stmt.setTimestamp(4, Timestamp.valueOf(ballPickingActivity.getStartTime()));
         }
-        if (activity.getEndTime() == null) {
+        if (ballPickingActivity.getEndTime() == null) {
             stmt.setNull(5, Types.NULL);
         } else {
-            stmt.setTimestamp(5, Timestamp.valueOf(activity.getEndTime()));
+            stmt.setTimestamp(5, Timestamp.valueOf(ballPickingActivity.getEndTime()));
         }
         stmt.executeUpdate();
     }
 
     @Override
-    public List<Activity> getAllActivities() throws IllegalArgumentException, SQLException {
-        List<Activity> result = new ArrayList<>();
+    public List<BallPickingActivity> getAllActivities() throws IllegalArgumentException, SQLException {
+        List<BallPickingActivity> result = new ArrayList<>();
 
         Connection conn = DBConnectionManager.dbConnection;
         String query = "SELECT id, activity_date, ball_count, picker_counts, start_time, end_time" +
-                " FROM driving_range.activity" +
+                " FROM driving_range.ball_picking_activity" +
                 " ORDER BY activity_date asc ";
         PreparedStatement stmt = conn.prepareStatement(query);
         ResultSet rs = stmt.executeQuery();
         Gson gsonObj = new Gson();
         Type mapType = new TypeToken<Map<String, Integer>>() {}.getType();
         while(rs.next()) {
-            Activity p = new Activity(rs.getInt(1),
+            BallPickingActivity p = new BallPickingActivity(rs.getInt(1),
                     rs.getTimestamp(2).toLocalDateTime(),
                     rs.getInt(3),
                     gsonObj.fromJson(rs.getString(4), mapType),
@@ -79,12 +79,12 @@ public class ActivitySQLDataAccess implements IActivityDataAccess{
     }
 
     @Override
-    public Activity getActivity(int id) throws IllegalArgumentException, SQLException {
-        Activity result = new Activity();
+    public BallPickingActivity getActivity(int id) throws IllegalArgumentException, SQLException {
+        BallPickingActivity result = new BallPickingActivity();
 
         Connection conn = DBConnectionManager.dbConnection;
         String query = "SELECT id, activity_date, ball_count, picker_counts, start_time, end_time" +
-                " FROM driving_range.activity" +
+                " FROM driving_range.ball_picking_activity" +
                 " WHERE id = ? ";
         PreparedStatement stmt = conn.prepareStatement(query);
         stmt.setInt(1, id);
@@ -114,15 +114,15 @@ public class ActivitySQLDataAccess implements IActivityDataAccess{
     }
 
     @Override
-    public Activity getActivityByDate(LocalDateTime dateTime) throws IllegalArgumentException, SQLException {
-        Activity result = new Activity();
+    public BallPickingActivity getActivityByDate(LocalDateTime dateTime) throws IllegalArgumentException, SQLException {
+        BallPickingActivity result = new BallPickingActivity();
 
         if (dateTime == null) {
             throw new IllegalArgumentException("dateTime cannot be null");
         }
         Connection conn = DBConnectionManager.dbConnection;
         String query = "SELECT id, activity_date, ball_count, picker_counts, start_time, end_time" +
-                " FROM driving_range.activity" +
+                " FROM driving_range.ball_picking_activity" +
                 " WHERE activity_date = ? ";
         PreparedStatement stmt = conn.prepareStatement(query);
         stmt.setTimestamp(1, Timestamp.valueOf(dateTime));
@@ -152,26 +152,37 @@ public class ActivitySQLDataAccess implements IActivityDataAccess{
     }
 
     @Override
-    public Activity updateActivity(Activity activity) throws IllegalArgumentException, SQLException {
+    public BallPickingActivity updateActivity(BallPickingActivity ballPickingActivity) throws IllegalArgumentException, SQLException {
         Connection conn = DBConnectionManager.dbConnection;
-        String updateStatement = "UPDATE driving_range.activity " +
-                " SET start_time = ?, end_time = ?" +
+        Gson gsonObj = new Gson();
+
+        String updateStatement = "UPDATE driving_range.ball_picking_activity " +
+                " SET activity_date = ?, " +
+                    " ball_count = ?, " +
+                    " picker_counts = ?, " +
+                    " start_time = ?, " +
+                    " end_time = ? " +
                 " WHERE id = ?";
         PreparedStatement stmt = conn.prepareStatement(updateStatement);
 
-        if (activity.getStartTime() == null) {
-            stmt.setNull(1, Types.NULL);
+        stmt.setTimestamp(1, Timestamp.valueOf(ballPickingActivity.getActivityDate()));
+        stmt.setInt(2, ballPickingActivity.getBallCount());
+        stmt.setString(3, gsonObj.toJson(ballPickingActivity.getPickerCounts()));
+
+        if (ballPickingActivity.getStartTime() == null) {
+            stmt.setNull(4, Types.NULL);
         } else {
-            stmt.setTimestamp(1, Timestamp.valueOf(activity.getStartTime()));
+            stmt.setTimestamp(4, Timestamp.valueOf(ballPickingActivity.getStartTime()));
         }
-        if (activity.getEndTime() == null) {
-            stmt.setNull(2, Types.NULL);
+
+        if (ballPickingActivity.getEndTime() == null) {
+            stmt.setNull(5, Types.NULL);
         } else {
-            stmt.setTimestamp(2, Timestamp.valueOf(activity.getEndTime()));
+            stmt.setTimestamp(5, Timestamp.valueOf(ballPickingActivity.getEndTime()));
         }
-        stmt.setInt(3, activity.getId());
+        stmt.setInt(6, ballPickingActivity.getId());
         stmt.executeUpdate();
 
-        return activity;
+        return ballPickingActivity;
     }
 }

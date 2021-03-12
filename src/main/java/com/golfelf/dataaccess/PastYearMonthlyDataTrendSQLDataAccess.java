@@ -30,7 +30,7 @@ public class PastYearMonthlyDataTrendSQLDataAccess extends DataTrendDataAccess {
                 " DATE_PART('hour', end_time::timestamp - start_time::timestamp)) * 60 + " +
                 " DATE_PART('minute', end_time::timestamp - start_time::timestamp)" +
                 " ) as minutes" +
-                " FROM driving_range.activity " +
+                " FROM driving_range.ball_picking_activity " +
                 " WHERE activity_date >= NOW() at time zone 'PST' - interval '11 months'" +
                 " GROUP BY date_trunc('Month', activity_date), " +
                          " date_trunc('Year', activity_date) " +

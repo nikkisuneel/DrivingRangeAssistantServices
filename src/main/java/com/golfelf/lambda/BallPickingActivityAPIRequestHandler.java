@@ -9,9 +9,9 @@ import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
-import com.golfelf.dataaccess.ActivitySQLDataAccess;
-import com.golfelf.dataaccess.IActivityDataAccess;
-import com.golfelf.drivingrange.Activity;
+import com.golfelf.dataaccess.BallPickingActivitySQLDataAccess;
+import com.golfelf.dataaccess.IBallPickingActivityDataAccess;
+import com.golfelf.drivingrange.BallPickingActivity;
 import com.golfelf.util.Utils;
 import com.google.gson.Gson;
 
@@ -20,9 +20,9 @@ import java.util.List;
 import java.util.Locale;
 
 /*
- * A Lambda handler for processing Activity APIs
+ * A Lambda handler for processing Ball Picking Activity APIs
  */
-public class ActivityAPIRequestHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+public class BallPickingActivityAPIRequestHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent apiGatewayProxyRequestEvent,
                                                       Context context) {
         LambdaLogger logger = context.getLogger();
@@ -60,11 +60,11 @@ public class ActivityAPIRequestHandler implements RequestHandler<APIGatewayProxy
 
         try {
             String body = request.getBody();
-            Activity inputActivity = gsonObj.fromJson(body, Activity.class);
-            IActivityDataAccess activityDataAccess = new ActivitySQLDataAccess();
-            activityDataAccess.create(inputActivity);
-            Activity createdActivity = activityDataAccess.getActivityByDate(inputActivity.getActivityDate());
-            response.setBody(gsonObj.toJson(createdActivity));
+            BallPickingActivity inputBallPickingActivity = gsonObj.fromJson(body, BallPickingActivity.class);
+            IBallPickingActivityDataAccess activityDataAccess = new BallPickingActivitySQLDataAccess();
+            activityDataAccess.create(inputBallPickingActivity);
+            BallPickingActivity createdBallPickingActivity = activityDataAccess.getActivityByDate(inputBallPickingActivity.getActivityDate());
+            response.setBody(gsonObj.toJson(createdBallPickingActivity));
             response.setStatusCode(200);
         } catch (IllegalArgumentException e) {
             logger.log(gsonObj.toJson(e));
@@ -86,8 +86,8 @@ public class ActivityAPIRequestHandler implements RequestHandler<APIGatewayProxy
         Gson gsonObj = Utils.getGsonWithFormatters();
 
         try {
-            IActivityDataAccess activityDataAccess = new ActivitySQLDataAccess();
-            List<Activity> activities = activityDataAccess.getAllActivities();
+            IBallPickingActivityDataAccess activityDataAccess = new BallPickingActivitySQLDataAccess();
+            List<BallPickingActivity> activities = activityDataAccess.getAllActivities();
             response.setBody(gsonObj.toJson(activities));
             response.setStatusCode(200);
         } catch (SQLException e) {
@@ -107,13 +107,13 @@ public class ActivityAPIRequestHandler implements RequestHandler<APIGatewayProxy
 
         try {
             String body = request.getBody();
-            IActivityDataAccess activityDataAccess = new ActivitySQLDataAccess();
+            IBallPickingActivityDataAccess activityDataAccess = new BallPickingActivitySQLDataAccess();
             String id = request.getPathParameters().get("activityId");
-            Activity a = gsonObj.fromJson(body, Activity.class);
+            BallPickingActivity a = gsonObj.fromJson(body, BallPickingActivity.class);
             a.setId(Integer.parseInt(id));
             activityDataAccess.updateActivity(a);
-            Activity updatedActivity = activityDataAccess.getActivity(Integer.parseInt(id));
-            response.setBody(gsonObj.toJson(updatedActivity));
+            BallPickingActivity updatedBallPickingActivity = activityDataAccess.getActivity(Integer.parseInt(id));
+            response.setBody(gsonObj.toJson(updatedBallPickingActivity));
             response.setStatusCode(200);
         } catch (IllegalArgumentException e) {
             logger.log(gsonObj.toJson(e));

@@ -9,12 +9,12 @@
       "https"
   ],
   "paths": {
-    "/activities": {
+    "/ball-picking-activities": {
       "get": {
         "tags": [
-            "activities"
+            "ball-picking-activities"
         ],
-        "summary": "List all activities",
+        "summary": "List all ball picking activities",
         "produces": [
             "application/json"
         ],
@@ -22,7 +22,7 @@
           "200": {
             "description": "Successful operation",
             "schema": {
-              "$ref": "#/definitions/Activities"
+              "$ref": "#/definitions/BallPickingActivities"
             },
             "headers": {
               "Access-Control-Allow-Origin": {
@@ -41,7 +41,7 @@
               }
             }
           },
-          "uri": "http://drivingrange.execute-api.us-east-1.amazonaws.com/drivingrange/activities",
+          "uri": "http://drivingrange.execute-api.us-east-1.amazonaws.com/drivingrange/ball-picking-activities",
           "passthroughBehavior": "when_no_match",
           "httpMethod": "GET",
           "type": "http"
@@ -49,10 +49,10 @@
       },
       "post": {
         "tags": [
-            "activities"
+            "ball-picking-activities"
         ],
-        "operationId": "CreateActivity",
-        "summary": "Create an activity",
+        "operationId": "CreateBallPickingActivity",
+        "summary": "Create a ball picking activity",
         "consumes": [
             "application/json"
         ],
@@ -62,10 +62,10 @@
         "parameters": [
           {
             "in": "body",
-            "name": "NewActivity",
+            "name": "NewBallPickingActivity",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/NewActivity"
+              "$ref": "#/definitions/NewBallPickingActivity"
             }
           }
         ],
@@ -73,7 +73,7 @@
           "200": {
             "description": "Successful operation",
             "schema": {
-              "$ref": "#/definitions/NewActivityResponse"
+              "$ref": "#/definitions/NewBallPickingActivityResponse"
             },
             "headers": {
               "Access-Control-Allow-Origin": {
@@ -92,20 +92,20 @@
               }
             }
           },
-          "uri": "http://drivingrange.execute-api.us-east-1.amazonaws.com/drivingrange/activities",
+          "uri": "http://drivingrange.execute-api.us-east-1.amazonaws.com/drivingrange/ball-picking-activities",
           "passthroughBehavior": "when_no_match",
           "httpMethod": "POST",
           "type": "http"
         }
       },
     },
-    "/activities/{activityId}": {
+    "/ball-picking-activities/{activityId}": {
       "put": {
         "tags": [
-            "activities"
+            "ball-picking-activities"
         ],
-        "summary": "Updating a specific activity",
-        "operationId": "UpdateActivity",
+        "summary": "Updating a specific ball picking activity",
+        "operationId": "UpdateBallPickingActivity",
         "produces": [
             "application/json"
         ],
@@ -113,7 +113,7 @@
           {
             "name": "activityId",
             "in": "path",
-            "description": "The id of the activity to be updated",
+            "description": "The id of the ball picking activity to be updated",
             "required": true,
             "type": "string"
           }
@@ -122,7 +122,7 @@
           "200": {
             "description": "Successful operation",
             "schema": {
-              "$ref": "#/definitions/Activity"
+              "$ref": "#/definitions/BallPickingActivity"
             },
             "headers": {
               "Access-Control-Allow-Origin": {
@@ -144,7 +144,7 @@
           "requestParameters": {
             "integration.request.path.activityId": "method.request.path.activityId"
           },
-          "uri": "http://drivingrange.execute-api.us-east-1.amazonaws.com/drivingrange/activities/{activityId}",
+          "uri": "http://drivingrange.execute-api.us-east-1.amazonaws.com/drivingrange/ball-picking-activities/{activityId}",
           "passthroughBehavior": "when_no_match",
           "httpMethod": "PUT",
           "type": "http"
@@ -386,24 +386,24 @@
     },
   },
   "definitions": {
-    "Activities": {
+    "BallPickingActivities": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/Activity"
+        "$ref": "#/definitions/BallPickingActivity"
       }
     },
-    "NewActivityResponse": {
+    "NewBallPickingActivityResponse": {
       "type": "object",
       "properties": {
-        "activity": {
-          "$ref": "#/definitions/Activity"
+        "ballPickingActivity": {
+          "$ref": "#/definitions/BallPickingActivity"
         },
         "message": {
           "type": "string"
         }
       }
     },
-    "Activity": {
+    "BallPickingActivity": {
       "type": "object",
       "properties": {
         "id": {
@@ -432,7 +432,7 @@
         }
       }
     },
-    "NewActivity": {
+    "NewBallPickingActivity": {
       "type": "object",
       "properties": {
         "activityDate": {
@@ -568,50 +568,50 @@
       {
         "location": {
           "type": "METHOD",
-          "path": "/activities",
+          "path": "/ball-picking-activities",
           "method": "GET"
         },
         "properties": {
           "tags": [
-              "activities"
+              "ball-picking-activities"
           ],
-          "summary": "List all activities"
+          "summary": "List all ball picking activities"
         }
       },
       {
         "location": {
           "type": "METHOD",
-          "path": "/activities/{activityId}",
+          "path": "/ball-picking-activities/{activityId}",
           "method": "PUT"
         },
         "properties": {
           "tags": [
-              "activities"
+              "ball-picking-activities"
           ],
-          "summary": "Update for a specific activity"
+          "summary": "Update for a specific ball picking activity"
         }
       },
       {
         "location": {
           "type": "METHOD",
-          "path": "/activities",
+          "path": "/ball-picking-activities",
           "method": "POST"
         },
         "properties": {
           "tags": [
-              "activities"
+              "ball-picking-activities"
           ],
-          "summary": "Create a activity"
+          "summary": "Create a ball picking activity"
         }
       },
       {
         "location": {
           "type": "REQUEST_BODY",
-          "path": "/activities",
+          "path": "/ball-picking-activities",
           "method": "POST"
         },
         "properties": {
-          "description": "Activity object that needs to be added"
+          "description": "Ball Picking Activity object that needs to be added"
         }
       },
       {
