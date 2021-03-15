@@ -13,7 +13,7 @@ A mobile app developed in Flutter for iOS that uses these APIs are available at 
 The following deployment steps are needed
 - Login to AWS management console. Perform the following steps using the console.
 - Create a new API in AWS API gateway. See https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html
-- Use the openapi.yaml to create the resources and their corresponding methods
+- Use the openapi.yaml to create the resources and their corresponding methods by importing it into the AWS API Gateway
 - Configure each of the resource methods to use their corresponding Lambda functions. See https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-integrations.html
   * For /activities API methods, integrate with ActivityManagement Lambda function
   * For /pickers API methods, integrate with PickerManagement Lambda function
